@@ -1,0 +1,68 @@
+version: "3.7"
+
+services:
+  radarr:
+    image: "linuxserver/radarr:latest"
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+    volumes:
+      - /mnt/storage/Films/.radarr:/config
+      - /mnt/storage/Films/Movies/:/movies
+      - /mnt/storage/Films/Downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+    volumes:
+      - /mnt/storage/Films/.sonarr:/config
+      - /mnt/storage/Films/Series/:/tv
+      - /mnt/storage/Films/Downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+      - JELLYFIN_PublishedServerUrl=192.168.1.254
+    volumes:
+      - /mnt/storage/Films/.jellyfin:/config
+      - /mnt/storage/Films/Series:/tvshows
+      - /mnt/storage/Films/Movies:/movies
+    ports:
+      - 8096:8096
+    restart: unless-stopped
+
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+      - USER=minigrim0
+      - PASS=12345
+    volumes:
+      - /mnt/storage/Films/.transmission
+      - /mnt/storage/Films/Downloads:/downloads
+      - /mnt/storage/Films/Torrents:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+
