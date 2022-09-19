@@ -12,5 +12,3 @@ def remove_trackers():
 
 remove_trackers()
 
-with open("out.txt", "w+") as f:
-    f.write("Been exec dude")
