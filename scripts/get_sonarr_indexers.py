@@ -34,7 +34,7 @@ for indexer in root:
         "supportsSearch": True,
         "protocol": "torrent",
         "priority": 25,
-        "downloadClientId": 1,
+        "downloadClientId": 0,
         "name": indexer.find("title").text,
         "fields": [
             {
