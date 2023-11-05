@@ -9,9 +9,9 @@ services:
       - PGID=1000
       - TZ=Europe/Brussels
     volumes:
-      - /mnt/storage/Films/.radarr:/config
-      - /mnt/storage/Films/Movies/:/movies
-      - /mnt/storage/Films/Downloads:/downloads
+      - ./Movies/:/movies
+      - ./.config/radarr:/config
+      - ./.downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -24,9 +24,9 @@ services:
       - PGID=1000
       - TZ=Europe/Brussels
     volumes:
-      - /mnt/storage/Films/.sonarr:/config
-      - /mnt/storage/Films/Series/:/tv
-      - /mnt/storage/Films/Downloads:/downloads
+      - ./Series/:/tv
+      - ./.config/sonarr:/config
+      - ./.downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -38,32 +38,29 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Brussels
-      - JELLYFIN_PublishedServerUrl=192.168.1.254
     volumes:
-      - /mnt/storage/Films/.jellyfin:/config
-      - /mnt/storage/Films/Series:/tvshows
-      - /mnt/storage/Films/Movies:/movies
+      - ./Movies:/movies
+      - ./Series:/tvshows
+      - ./.config/jellyfin:/config
     ports:
       - 8096:8096
     restart: unless-stopped
 
-  transmission:
-    image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Brussels
-      - USER=minigrim0
-      - PASS=12345
+      - TZ=Europe/Stockholm
+      - WEBUI_PORT=8080
     volumes:
-      - /mnt/storage/Films/.transmission
-      - /mnt/storage/Films/Downloads:/downloads
-      - /mnt/storage/Films/Torrents:/watch
+      - ./.config/qbit:/config
+      - ./.downloads:/downloads
     ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
     restart: unless-stopped
 
   jackett:
@@ -72,10 +69,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/Brussels
+      - TZ=Europe/Stockholm
       - AUTO_UPDATE=true #optional
     volumes:
-      - .jackett/:/config
+      - ./.config/jackett:/config
       - /dev/null:/downloads
     ports:
       - 9117:9117
@@ -93,3 +90,22 @@ services:
     ports:
       - "${PORT:-8191}:8191"
     restart: unless-stopped
+
+  # Nginx to use user friendly urls (example.local/jellyfin -> example.local:8096)
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80  # Default http goes to nginx
+    restart: unless-stopped
+
+  homeassistant:
+    container_name: homeassistant
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./.config/ha:/config
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: host
+    image: 'ghcr.io/home-assistant/home-assistant:stable'

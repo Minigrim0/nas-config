@@ -11,4 +11,3 @@ def remove_trackers():
                 c.change_torrent(torrent.id, trackerRemove=[tracker['id'] for tracker in torrent.trackers])
 
 remove_trackers()
-
