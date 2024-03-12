@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trappe - Home server</title>
+        <style>
+            body {
+                background-color: #1b1b1b;
+                margin: 0;
+                padding: 0;
+            }
+
+            .background {
+                position: absolute;
+                display: block;
+                top: 0;
+                left: 0;
+                z-index: -100;
+            }
+
+            .container {
+                width: min(50%, 600px);
+                max-height: 80vh;
+                margin-left: 25%;
+                margin-top: 25vh;
+                color: #bbb;
+                z-index: 15;
+            }
+            .container .text-center {
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 3em;
+            }
+
+            ul {
+                list-style-type: none;
+            }
+
+            li {
+                margin-bottom: 20px;
+                height: 2em;
+            }
+
+            a {
+                text-decoration: none;
+                color: #bbb;
+                font-size: 2em;
+            }
+
+            a span {
+                padding: 15px 0;
+            }
+
+            a :hover {
+                color: #999;
+                text-decoration: underline;
+            }
+
+            a img {
+                max-height: 40px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="part_body" class="container">
+            <h1 class="text-center">Trappe Home Server</h1>
+            <ul>
+                <li>
+                    <a href="/jellyfin">
+                        <img src="/img/jellyfin.png" />
+                        <span>Jellyfin</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/homeassistant">
+                        <img src="/img/homeassistant.png" />
+                        <span>Home Assistant</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/sonarr">
+                        <img src="/img/sonarr.png" />
+                        <span>Sonarr</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/radarr">
+                        <img src="/img/radarr.png" />
+                        <span>Radarr</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/bazarr">
+                        <img src="/img/bazarr.png" />
+                        <span>Bazarr</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/qbittorrent">
+                        <img src="/img/qbittorrent.png" />
+                        <span>QBitTorrent</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/jackett">
+                        <img src="/img/jackett.png" />
+                        <span>Jackett</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <canvas class="background"></canvas>
+        <script src="/js/particles.js"></script>
+        <script>
+            window.onload = function() {
+                Particles.init({
+                  selector: '.background',
+                  maxParticles: 200,
+                  responsive: [
+                        {
+                            breakpoint: 768,
+                            options: {
+                                maxParticles: 200,
+                                color: '#48F2E3',
+                                connectParticles: false
+                            }
+                        },
+                    ]
+                });
+              };
+        </script>
+    </body>
+</html>
