@@ -118,17 +118,10 @@
             window.onload = function() {
                 Particles.init({
                   selector: '.background',
-                  maxParticles: 200,
-                  responsive: [
-                        {
-                            breakpoint: 768,
-                            options: {
-                                maxParticles: 200,
-                                color: '#48F2E3',
-                                connectParticles: false
-                            }
-                        },
-                    ]
+                  maxParticles: 100,
+                  color: '#aaa',
+                  connectParticles: false,
+                  sizeVariations: 4
                 });
               };
         </script>
