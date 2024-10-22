@@ -1,4 +1,6 @@
-mkdir -p .config/{jellyfin,radarr,sonarr,qbit,jackett,ha}
-mkdir -p {.downloads,Movies,Series}
+#!/bin/bash
 
-docker-compose up --build -d
+mkdir -p .config/{jellyfin,radarr,sonarr,qbit,jackett,ha}
+mkdir -p ./{Movies,Series,.downloads}
+
+docker compose up --build -d

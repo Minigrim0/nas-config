@@ -68,7 +68,7 @@ for indexer in root:
                 "label": "Categories",
                 "helpText": "Drop down list, leave blank to disable standard/daily shows",
                 "value": [
-                    id.attrib.get("id") for id in indexer.find("caps").find("categories").findall("category")
+                    int(id.attrib.get("id")) for id in indexer.find("caps").find("categories").findall("category")
                 ],
                 "type": "select",
                 "advanced": False,
